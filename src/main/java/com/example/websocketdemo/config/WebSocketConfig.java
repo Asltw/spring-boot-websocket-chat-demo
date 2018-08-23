@@ -1,8 +1,10 @@
 package com.example.websocketdemo.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.*;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 /**
  * Created by rajeevkumarsingh on 24/07/17.
@@ -13,7 +15,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").withSockJS();
+        registry.addEndpoint("/ws").setAllowedOrigins("*")
+                .addInterceptors(new HttpSessionIdHandshakeInterceptor()).withSockJS();
     }
 
     @Override
@@ -32,4 +35,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 .setClientPasscode("guest");
         */
     }
+
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter() {
+        return new ServerEndpointExporter();
+    }
+
 }

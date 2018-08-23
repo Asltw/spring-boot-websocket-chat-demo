@@ -23,7 +23,8 @@ function connect(event) {
         usernamePage.classList.add('hidden');
         chatPage.classList.remove('hidden');
 
-        var socket = new SockJS('/ws');
+        // var socket = new SockJS('/ws?token=songhuan');
+        var socket = new WebSocket("  ");
         stompClient = Stomp.over(socket);
 
         stompClient.connect({}, onConnected, onError);
@@ -72,6 +73,7 @@ function sendMessage(event) {
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
 
+    console.log("hello" + message.content);
     var messageElement = document.createElement('li');
 
     if(message.type === 'JOIN') {
